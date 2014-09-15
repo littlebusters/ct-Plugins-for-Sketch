@@ -1,0 +1,26 @@
+// Shortcut to Generate Image Syntax (shift control i)
+
+var layers = selection;
+var imageURLGenerator = imageURLGenerator || {};
+var pasteBoard = null;
+pasteBoard = NSPasteboard.generalPasteboard();
+pasteBoard.declareTypes_owner( [ NSPasteboardTypeString ], null );
+
+imageURLGenerator.getValues = function() {
+
+	var mdImageURLs = '';
+
+	// for (var i = [layers count] - 1; i >= 0; i--) {
+	for (var i = 0; i < [layers count]; i++) {
+		var layer = [layers objectAtIndex:i];
+			mdImageURLs += '![](images/' + [layer name] + '.png)' + "\n";
+	};
+
+	return mdImageURLs;
+}
+
+pasteBoard.setString_forType (
+	imageURLGenerator.getValues(), 
+	NSPasteboardTypeString
+);
+
