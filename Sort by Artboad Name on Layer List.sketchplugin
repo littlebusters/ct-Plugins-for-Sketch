@@ -1,0 +1,45 @@
+// (shift control f)
+(function() {
+
+    var artboards = [[doc currentPage] artboards];
+    var artboardMetas = [];
+
+    for (var i = [artboards count] - 1; i >= 0; i--) {
+        artboardMetas[i] = { name: artboards[i].name(), order: i, newOrder: 0 }
+    };
+
+    for ( var i = artboardMetas.length - 1; i >= 0; i-- ) {
+
+        for (var j = i; j >= 0; j--) {
+
+            if ( artboardMetas[i].name > artboardMetas[j].name ) {
+                var temp = artboardMetas[i];
+                artboardMetas[i] = artboardMetas[j];
+                artboardMetas[j] = temp;
+                artboardMetas[j].newOrder++;
+            }
+        };
+    };
+
+    artboardMetas = artboardMetas.reverse();
+
+    doc.currentPage().deselectAllLayers();
+    for (var i = [artboards count] - 1; i >= 0; i--) {
+
+        artboards[artboardMetas[i].order].setIsSelected( true );
+
+        for (var j = artboardMetas[i].newOrder - 1; j >= 0; j--) {
+
+            try {
+                [NSApp sendAction:'moveBackward' to:nil from:doc];
+            } catch(e) {
+                my.log(e)
+            }
+
+        };
+
+        doc.currentPage().deselectAllLayers();
+
+    };
+
+})( doc );

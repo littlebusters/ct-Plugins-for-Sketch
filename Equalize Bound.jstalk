@@ -1,0 +1,21 @@
+// Makes all selected objects the same bound (shift control e)
+
+var max_width  = 0,
+    max_height = 0;
+log('auie');
+for ( var i = 0; i < [selection count]; i++ ) {
+  var layer = [selection objectAtIndex:i],
+      frame = [layer frame],
+      width = [frame width],
+      height = [frame height]
+
+      max_width = Math.max(width, max_width)
+      max_height = Math.max(height, max_height)
+}
+
+for (var i=0; i < [selection count]; i++){
+  var layer = [selection objectAtIndex:i],
+      frame = [layer frame];
+  [frame setWidth:Math.round(max_width)];
+  [frame setHeight:Math.round(max_height)];
+}
